@@ -1,16 +1,25 @@
 import Layout from '@/components/Layout'
+import Spinner from '@/components/Spinner'
 import axios from 'axios'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
 const Products = () => {
   const [products, setProducts] = useState([]);
+  const [isloading, setIsloading] = useState(false);
+
   useEffect(()=>{
+    setIsloading(true);
     axios.get('/api/products').then(response => {
       setProducts(response.data);
     })
-  })
+    setIsloading(false);
+  },[])
+  if(isloading){
+  return <Spinner/>
+  }
   return (
+    
     <Layout>
         <Link className='bg-blue-900 text-white rounded-md py-1 px-2' href={'/products/new'}>Add new product</Link>
         <table className='basic mt-2'>
