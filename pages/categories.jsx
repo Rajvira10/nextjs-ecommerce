@@ -1,20 +1,20 @@
 import Layout from '@/components/Layout'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { withSwal } from "react-sweetalert2";
 
-const Categories = () => {
+const Categories = ({swal}) => {
     const [editedCategory, setEditedCategory] = useState(null);
     const [name, setName] = useState("");
     const [categories,setCategories] = useState([]);
-    const [parentCategory, setParentCategory] = useState(' ');
+    const [parentCategory, setParentCategory] = useState('');
+    const [isSaving, setIsSaving] = useState(false);
 
     
     const fetchCategories = () => {
-        console.log("hello");
         axios.get('/api/categories').then(result => {
             setCategories(result.data);
         })
-        console.log("hello");
     }
 
     
@@ -24,6 +24,7 @@ const Categories = () => {
 
     const saveCategory = (e) => {
         e.preventDefault()
+        setIsSaving(true);
         const data = {name,parentCategory}
         if(editedCategory){
             data._id = editedCategory._id;
@@ -35,6 +36,7 @@ const Categories = () => {
         setName("");
         setParentCategory("")
         fetchCategories();
+        setIsSaving(false);
     }
 
 
@@ -42,6 +44,25 @@ const Categories = () => {
         setEditedCategory(category);
         setName(category.name);
         setParentCategory(category.parent?._id || "")
+    }
+
+    const deleteCategory = async(category) => {
+        swal.fire({
+            title: 'Are you sure?',
+            text: `Do you want to delete ${category.name}?`,
+            showCancelButton: true,
+            cancelButtonText: 'Cancel',
+            confirmButtonText: 'Yes, Delete!',
+            reverseButtons: true,
+            confirmButtonColor: '#d55'
+        }).then(result => {
+            if(result.isConfirmed){
+                const {_id} = category;
+                axios.delete('/api/categories?_id='+_id);
+            }
+            fetchCategories();
+        })
+
     }
 
   return (
@@ -58,7 +79,7 @@ const Categories = () => {
                     </option>  
                 ))}
             </select>
-            <button type='submit' className='btn btn-primary py-1'>Save</button>
+            <button type='submit' disabled={isSaving} className='btn btn-primary py-1 disabled:bg-slate-600 disabled:text-white disabled:border-slate-500'>Save</button>
         </form>
         <table className="basic mt-4">
             <thead>
@@ -75,7 +96,7 @@ const Categories = () => {
                         <td>{category.parent?.name}</td>
                         <td>
                             <button onClick={()=> editCategory(category)} className='btn-primary mr-1'>Edit</button>
-                            <button className='btn-primary'>Delete</button>
+                            <button onClick={()=> deleteCategory(category)}className='btn-primary'>Delete</button>
                         </td>
                     </tr>  
                 ))}
@@ -86,4 +107,7 @@ const Categories = () => {
   )
 }
 
-export default Categories
+export default withSwal(({swal}, ref) => (
+    <Categories swal={swal}/>
+));
+
