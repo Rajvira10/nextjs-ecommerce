@@ -49,14 +49,16 @@ const ProductForm = ({_id,title:existingTitle, description:existingDescription, 
     const updateImagesOrder = () => {
         console.log(arguments)
     }
+    if(images === null){
+        return;
+    }
   return (
     <form onSubmit={saveProduct}>
         <label>Product Name</label>
         <input type="text" name="" id="" placeholder='Product Name' value={title} onChange={(e)=>setTitle(e.target.value)}/>
         <label>Photos</label>
         <div className='mb-2 flex flex-wrap gap-1'>
-            <ReactSortable className='flex flex-wrap gap-1' 
-            list={images} setList={updateImagesOrder}>
+            {console.log(existingImages)}
             {images?.length>0 && images.map(link => (
                 <div key={link} className='h-24'>
                     <img src={link} alt="" className='rounded-lg'/>
@@ -67,7 +69,6 @@ const ProductForm = ({_id,title:existingTitle, description:existingDescription, 
                     <Spinner/>
                 </div> 
             )}
-            </ReactSortable>
             <label className='w-24 h-24 border text-center flex text-sm gap-1 text-gray-500 items-center justify-center rounded-lg bg-gray-200 cursor-pointer'>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />

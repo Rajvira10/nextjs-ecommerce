@@ -16,7 +16,7 @@ export default function EditProductPage(){
             setProductInfo(res.data)
         })
 
-    })
+    },[id])
 
     return(
         <Layout>
