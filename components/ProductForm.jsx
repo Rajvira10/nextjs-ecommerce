@@ -4,11 +4,11 @@ import React, { useEffect, useState } from 'react'
 import Spinner from './Spinner';
 import { ReactSortable } from 'react-sortablejs';
 
-const ProductForm = ({_id,title:existingTitle, description:existingDescription, price:existingPrice, images:existingImages}) => {
+const ProductForm = ({_id,title:existingTitle, description:existingDescription, price:existingPrice, images:existingImages, category:existingCategory}) => {
     const router = useRouter()
     const [goToProducts, setGoToProducts] = useState(false) 
     const [title, setTitle] = useState(existingTitle||'');
-    const [category, setCategory] = useState("");
+    const [category, setCategory] = useState(existingCategory||"");
     const [description, setDescription] = useState(existingDescription||'');
     const [price, setPrice] = useState(existingPrice||'')
     const [images, setImages] = useState(existingImages||[]);
