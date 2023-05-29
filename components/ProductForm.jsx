@@ -11,12 +11,15 @@ const ProductForm = ({
   price: existingPrice,
   images: existingImages,
   category: existingCategory,
+  properties: assignedProperties,
 }) => {
   const router = useRouter();
   const [goToProducts, setGoToProducts] = useState(false);
   const [title, setTitle] = useState(existingTitle || "");
   const [category, setCategory] = useState(existingCategory || "");
-  const [productProperties, setProductProperties] = useState({});
+  const [productProperties, setProductProperties] = useState(
+    assignedProperties || {}
+  );
   const [description, setDescription] = useState(existingDescription || "");
   const [price, setPrice] = useState(existingPrice || "");
   const [images, setImages] = useState(existingImages || []);
@@ -29,7 +32,14 @@ const ProductForm = ({
   }, []);
 
   const saveProduct = async (e) => {
-    const data = { title, description, price, images, category };
+    const data = {
+      title,
+      description,
+      price,
+      images,
+      category,
+      properties: productProperties,
+    };
     e.preventDefault();
     if (_id) {
       await axios.put("/api/products", { ...data, _id });
@@ -115,9 +125,12 @@ const ProductForm = ({
         propertiesToFill.map((p) => (
           <div className="flex gap-1">
             <div>{p.name}</div>
-            <select onChange={() => setProductProp(p.name, ev.target.value)}>
+            <select
+              value={productProperties[p.name]}
+              onChange={(ev) => setProductProp(p.name, ev.target.value)}
+            >
               {p.values.map((v) => (
-                <option value={v}></option>
+                <option value={v}>{v}</option>
               ))}
             </select>
           </div>
