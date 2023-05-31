@@ -3,14 +3,24 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 
-const Navbar = () => {
+const Navbar = ({ show }) => {
   const inactiveLink = "flex gap-1";
-  const activeLink = inactiveLink + " bg-white text-blue-900 rounded-l-lg";
+  const activeLink = inactiveLink + " bg-white text-slate-900 rounded-l-lg";
   const router = useRouter();
   const { pathname } = router;
+  const logout = async () => {
+    await router.push("/");
+    await signOut();
+  };
 
   return (
-    <aside className="text-white p-4">
+    <aside
+      className={
+        show
+          ? "left-0 top-0 text-slate-300 p-4 fixed w-full h-full  bg-neutral-800 md:static md:w-auto transition-all"
+          : "-left-full text-slate-300 p-4 fixed w-full h-full  bg-neutral-800 md:static md:w-auto transition-all"
+      }
+    >
       <Link href={"/"} className="flex gap-1 mb-4 mr-4">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -136,7 +146,7 @@ const Navbar = () => {
           </svg>
           Settings
         </Link>
-        <button onClick={() => signOut()} className={inactiveLink}>
+        <button onClick={logout} className={inactiveLink}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

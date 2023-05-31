@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react'
 
 const Home = () => {
   const { data: session } = useSession()
-  if(!session) return;
+  if(!session) return <Layout></Layout>;
   return (
     <Layout>
       <div className='text-blue-900 flex justify-between'>

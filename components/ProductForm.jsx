@@ -101,7 +101,7 @@ const ProductForm = ({
 
   return (
     <form onSubmit={saveProduct}>
-      <label>Product Name</label>
+      <label className="text-sm font-bold">Product Name</label>
       <input
         type="text"
         name=""
@@ -110,7 +110,7 @@ const ProductForm = ({
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
-      <label>Category</label>
+      <label className="text-sm font-bold">Category</label>
       <select value={category} onChange={(e) => setCategory(e.target.value)}>
         <option value="">Uncategorized</option>
         {categories.length > 0 &&
@@ -123,8 +123,8 @@ const ProductForm = ({
       {/* {console.log(propertiesToFill)} */}
       {propertiesToFill.length > 0 &&
         propertiesToFill.map((p) => (
-          <div className="flex gap-1">
-            <div>{p.name}</div>
+          <div className="flex gap-1 flex-col">
+            <div className="text-sm font-bold">{p.name}</div>
             <select
               value={productProperties[p.name]}
               onChange={(ev) => setProductProp(p.name, ev.target.value)}
@@ -135,7 +135,7 @@ const ProductForm = ({
             </select>
           </div>
         ))}
-      <label>Photos</label>
+      <label className="text-sm font-bold">Photos</label>
       <div className="mb-2 flex flex-wrap gap-1">
         {images?.length > 0 &&
           images.map((link) => (
@@ -168,7 +168,7 @@ const ProductForm = ({
           <input type="file" className="hidden" onChange={uploadImages} />
         </label>
       </div>
-      <label>Description</label>
+      <label className="text-sm font-bold">Description</label>
       <textarea
         placeholder="Description"
         value={description}
@@ -176,7 +176,7 @@ const ProductForm = ({
       >
         {" "}
       </textarea>
-      <label>Price (in BDT)</label>
+      <label className="text-sm font-bold">Price (in BDT)</label>
       <input
         type="text"
         placeholder="Price"
